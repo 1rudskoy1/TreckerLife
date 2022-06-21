@@ -1,30 +1,32 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="_container">
+    <Nav-Bar></Nav-Bar>
+    <router-view/>
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+  import NavBar from "./components/TheNavbar.vue"
+  export default{
+  components:{
+    NavBar
+  },
 
-nav {
-  padding: 30px;
+  setup(){
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    return{
 
-    &.router-link-exact-active {
-      color: #42b983;
     }
   }
 }
+</script>
+<style lang="scss">
+  body{
+    font-family: 'Neue Montreal';
+    background: #1B232A;
+  }
+  ._container{
+    max-width: 1440px;
+    margin: 0 auto;
+  }
 </style>
