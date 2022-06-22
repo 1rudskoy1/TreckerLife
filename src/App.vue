@@ -1,8 +1,10 @@
 <template>
-  <div class="_container">
+  <div class="container">
     <Nav-Bar></Nav-Bar>
     <router-view/>
   </div>
+  
+  
 </template>
 
 <script>
@@ -22,11 +24,8 @@
 </script>
 <style lang="scss">
   body{
+    overflow: hidden;
     font-family: 'Neue Montreal';
-    background: #1B232A;
-  }
-  ._container{
-    max-width: 1440px;
-    margin: 0 auto;
+    background-color: #1B232A !important;
   }
 </style>
