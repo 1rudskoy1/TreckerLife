@@ -1,19 +1,18 @@
 <template>
-    <Modal/>
     <div class="body-habits">
         <div class="habits">
-            <div class="habit" v-for="(task, index) in tasks" :key="index">
+            <div class="habit" v-for="(task, index) in tasks" :key="index" :tabindex="index" >
                 <svg class="progress">
                     <circle class="progress-ring__circle" fill = "transparent" stroke = "#5ED5A8" stroke-width = "4" cx = "60" cy = "60" :r = "radius" :stroke-dashoffset = "offset" :stroke-dasharray = "strokearr" />
-                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#5ED5A8" stroke-width = "1" cx = "60" cy = "60" :r = "radius" />
+                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#7fdfba" stroke-width = "1" cx = "60" cy = "60" :r = "radius"/>
                 </svg>
                 <div class="habit-info">
                     <span class="habit-info__header">{{task.category}}</span>
-                    <span class="habit-info__level">{{task.level}}</span>
+                    <span  class="habit-info__level">{{task.level}}</span>
                 </div>
+                 <Modal/>
             </div>
         </div>
-        <button @click.prevent="circleProgress(10)">ткни</button>
     </div>
 </template>
 
@@ -44,9 +43,37 @@ export default {
          target: 400,
          dayWay: 60,
          currentDay: 0
-        }]);
+        },
+        {
+         name: "Развить выносливость",
+         level: 3,
+         description: "Отжиматься по 6 сотен каждый день",
+         category: "Спорт",
+         target: 600,
+         dayWay: 60,
+         currentDay: 22
+        },
+        {
+         name: "Разговаривать на английсском",
+         level: 2,
+         description: "Выучить 400 основных слов",
+         category: "Личный рост",
+         target: 400,
+         dayWay: 40,
+         currentDay: 5
+        },
+        {
+         name: "Разговаривать на английсском",
+         level: 1,
+         description: "Выучить 900 основных слов",
+         category: "Личный рост",
+         target: 900,
+         dayWay: 90,
+         currentDay: 10
+        },
+        ]);
         let pro = ref(0);
-        const radius = ref (52);
+        const radius = ref (60);
         const circumference = ref( 2 * Math.PI * radius.value); 
         let offset = ref (circumference.value);
         const strokearr = `${circumference.value} ${circumference.value}`;
@@ -68,8 +95,8 @@ export default {
 
 <style lang="scss">
     .progress{
-        width: 120px;
-        height: 120px !important;
+        width: 130px;
+        height: 130px !important;
         background-color: transparent !important;
 
         &-ring__circle{
@@ -78,8 +105,15 @@ export default {
             transition: stroke-dashoffset 0.3s;
         }
     }
+    .body-habits{
+        min-height: 70vh;
+        display: flex;
+        align-items: flex-end;
+    }
     .habits{
         display: flex;
+        width: 100%;
+        justify-content: space-around;
     }
     .habit{
         position: relative;
@@ -88,15 +122,22 @@ export default {
         &-info{
                 color: #5ED5A8;
                 position: absolute;
-                top: 40px;
-                left: 35px;
+                top: 50px;
+                left: 10px;
                 text-align: center;
+                width: 104px;
                 
             &__header{
                 display: block;
-                font-size: 18px;
+                font-size: 15px;
             }
         }
+        }
+        .red{
+            color:blue;
+        }
+        .habit:focus > .body-modal{
+            right: 15px;
         }
 
 </style>
