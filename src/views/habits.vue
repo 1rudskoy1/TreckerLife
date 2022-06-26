@@ -10,7 +10,7 @@
                     <span class="habit-info__header">{{task.category}}</span>
                     <span  class="habit-info__level">{{task.level}}</span>
                 </div>
-                 <Modal/>
+                 <Modal :task = 'task'/>
             </div>
         </div>
     </div>
@@ -33,16 +33,18 @@ export default {
          description: "Отжиматься по три сотни каждый день",
          category: "Спорт",
          target: 300,
+         currentCount: 50,
          dayWay: 60,
-         currentDay: 0
+         currentDay: 5
         }, {
          name: "Развить выносливость",
          level: 2,
          description: "Отжиматься по 4 сотни каждый день",
          category: "Спорт",
          target: 400,
+         currentCount: 50,
          dayWay: 60,
-         currentDay: 0
+         currentDay: 2
         },
         {
          name: "Развить выносливость",
@@ -50,6 +52,7 @@ export default {
          description: "Отжиматься по 6 сотен каждый день",
          category: "Спорт",
          target: 600,
+         currentCount: 50,
          dayWay: 60,
          currentDay: 22
         },
@@ -59,6 +62,7 @@ export default {
          description: "Выучить 400 основных слов",
          category: "Личный рост",
          target: 400,
+         currentCount: 50,
          dayWay: 40,
          currentDay: 5
         },
@@ -68,6 +72,7 @@ export default {
          description: "Выучить 900 основных слов",
          category: "Личный рост",
          target: 900,
+         currentCount: 50,
          dayWay: 90,
          currentDay: 10
         },
