@@ -1,9 +1,10 @@
 <template>
-    <div class="body-modal">
+    <div class="body-modal" :class = "task.click ? `body-modal_active` : ''">
+    <h2 class="modal-header">{{task.name}}</h2>
         <ul class="task-desc">
             <li class="task-desc__fild" :class=" task.currentDay > i ? 'task-desc__fild-check' : ''" v-for="(count, i) in task.dayWay" :key="i"> 
                 <span>{{count}}</span> {{task.target}} / {{task.currentCount}} 
-                <input type="checkbox" class="task-desc__check" :checked = "task.currentDay > i ? true : false" :disabled = "task.currentDay < i ? true : false"/>
+                <input @change="change" type="checkbox" class="task-desc__check" :checked = "task.currentDay > i ? true : false" :disabled = "task.currentDay < i ? true : false"/>
                 <div class="fild">
                     <div class="fild__overflow"></div>
                 </div>    
@@ -18,10 +19,13 @@ export default{
 
     data(){
         return{
-
+            open: `right: 15px`,
         }
     },
     methods:{
+        change(){
+            this.$emit("proCirckl")
+        }
     }
 
 }
@@ -32,13 +36,20 @@ export default{
         height: 97vh;
         width: 300px;
         position: fixed;
-        right: -500px;
+        right: -550px;
         top: 25px;
-        background-color: #24303a;
         color: #5ED5A8;
+        background-color: #1B232A;
         border: 1px solid #5ED5A8;
         transition: 1s;
         z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &_active{
+            right: 15px;
+        }
 
         .task-desc{
             width: 95%;
@@ -72,5 +83,11 @@ export default{
         opacity: 0.3;
         position: absolute;
         top: 35px;
+    }
+    .modal-header{
+        font-size: 23px;
+        margin-top: 15px;
+        max-width: 250px;
+        text-align: center;
     }
 </style>

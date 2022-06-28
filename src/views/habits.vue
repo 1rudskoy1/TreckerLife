@@ -1,16 +1,16 @@
 <template>
     <div class="body-habits">
         <div class="habits">
-            <div class="habit" v-for="(task, index) in tasks" :key="index" :tabindex="index" >
+            <div class="habit" v-for="(task, index) in tasks" :key="index" @click="modalMove(index)">
                 <svg class="progress">
-                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#5ED5A8" stroke-width = "4" cx = "60" cy = "60" :r = "radius" :stroke-dashoffset = "offset" :stroke-dasharray = "strokearr" />
+                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#5ED5A8" stroke-width = "4" cx = "60" cy = "60" :r = "radius" :stroke-dashoffset = "task.offset" :stroke-dasharray = "strokearr" />
                     <circle class="progress-ring__circle" fill = "transparent" stroke = "#7fdfba" stroke-width = "1" cx = "60" cy = "60" :r = "radius"/>
                 </svg>
                 <div class="habit-info">
                     <span class="habit-info__header">{{task.category}}</span>
                     <span  class="habit-info__level">{{task.level}}</span>
                 </div>
-                 <Modal :task = 'task'/>
+                 <Modal :task = 'task'  @click.stop @proCirckl = "circleProgress(index)"/>
             </div>
         </div>
     </div>
@@ -21,6 +21,7 @@
 import Modal from "../components/Modal.vue"
 
 import { reactive, ref } from '@vue/reactivity';
+import {onMounted} from "vue"
 
 export default {
     components:{
@@ -34,27 +35,33 @@ export default {
          category: "Спорт",
          target: 300,
          currentCount: 50,
-         dayWay: 60,
-         currentDay: 5
+         dayWay: 10,
+         currentDay: 5,
+         click: false,
+         offset: 100
         }, {
-         name: "Развить выносливость",
+         name: "Бог отжиманий",
          level: 2,
          description: "Отжиматься по 4 сотни каждый день",
          category: "Спорт",
          target: 400,
          currentCount: 50,
-         dayWay: 60,
-         currentDay: 2
+         dayWay: 5,
+         currentDay: 2,
+         click: false,
+         offset: 0
         },
         {
-         name: "Развить выносливость",
+         name: "Мистер поцелуй пол",
          level: 3,
          description: "Отжиматься по 6 сотен каждый день",
          category: "Спорт",
          target: 600,
          currentCount: 50,
          dayWay: 60,
-         currentDay: 22
+         currentDay: 22,
+         click: false,
+         offset: 0
         },
         {
          name: "Разговаривать на английсском",
@@ -64,38 +71,66 @@ export default {
          target: 400,
          currentCount: 50,
          dayWay: 40,
-         currentDay: 5
+         currentDay: 5,
+         click: false,
+         offset: 0
         },
         {
-         name: "Разговаривать на английсском",
+         name: "Я слышу тебя",
          level: 1,
          description: "Выучить 900 основных слов",
          category: "Личный рост",
          target: 900,
          currentCount: 50,
          dayWay: 90,
-         currentDay: 10
-        },
-        ]);
+         currentDay: 10,
+         click: false,
+         offset: 0
+        }, ]);
+
         let pro = ref(0);
         const radius = ref (60);
         const circumference = ref( 2 * Math.PI * radius.value); 
         let offset = ref (circumference.value);
         const strokearr = `${circumference.value} ${circumference.value}`;
-        function circleProgress(procent){
-            pro.value = pro.value + procent;
-            offset.value = circumference.value - pro.value / 100 * circumference.value;
+        function circleProgress(i){
+            tasks[i].currentDay++;
+            const currentProgress = ref((100 / tasks[i].dayWay) * tasks[i].currentDay);
+            tasks[i].offset = circumference.value - currentProgress.value / 100 * circumference.value;
+            console.log(tasks[i].offset);
         }
+        function modalMove(index){
+            if(tasks[index].click === true){
+            console.log(tasks[index].click)
+            tasks[index].click = false
+         }else{
+            tasks.forEach((task) =>{
+                task.click = false
+            });
+            tasks[index].click = true
+         }
+
+        }
+        onMounted(() => { 
+            tasks.forEach((task) =>{
+                const currentProgress = ref((100 / task.dayWay) * task.currentDay);
+                task.offset = circumference.value - currentProgress.value / 100 * circumference.value;
+                console.log(task.offset);
+            })
+
+         })
 
         return{
             radius,
             tasks,
             offset,
             strokearr,
-             circleProgress
+            circleProgress,
+            modalMove
         }
     }
 }
+
 </script>
 
 <style lang="scss">
@@ -137,12 +172,6 @@ export default {
                 font-size: 15px;
             }
         }
-        }
-        .red{
-            color:blue;
-        }
-        .habit:focus > .body-modal{
-            right: 15px;
         }
 
 </style>
