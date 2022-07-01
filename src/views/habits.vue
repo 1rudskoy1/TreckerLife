@@ -3,10 +3,10 @@
         <div class="habits">
             <div class="habit" v-for="(task, index) in tasks" :key="index" @click="modalMove(index)">
                 <svg class="progress">
-                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#5ED5A8" stroke-width = "4" cx = "60" cy = "60" :r = "radius" :stroke-dashoffset = "task.offset" :stroke-dasharray = "strokearr" />
-                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#7fdfba" stroke-width = "1" cx = "60" cy = "60" :r = "radius"/>
+                    <circle class="progress-ring__circle" :class="task.complead ? `progress-ring__circle-active` : ``" fill = "transparent" stroke = "#5ED5A8" stroke-width = "4" cx = "62" cy = "62" :r = "radius" :stroke-dashoffset = "task.offset" :stroke-dasharray = "strokearr" />
+                    <circle class="progress-ring__circle" fill = "transparent" stroke = "#7fdfba" stroke-width = "1" cx = "62" cy = "62" :r = "radius"/>
                 </svg>
-                <div class="habit-info">
+                <div class="habit-info" :class="task.complead ? `habit-info-active` : ``">
                     <span class="habit-info__header">{{task.category}}</span>
                     <span  class="habit-info__level">{{task.level}}</span>
                 </div>
@@ -38,7 +38,8 @@ export default {
          dayWay: 10,
          currentDay: 5,
          click: false,
-         offset: 100
+         offset: 100,
+         complead: false
         }, {
          name: "Бог отжиманий",
          level: 2,
@@ -94,14 +95,22 @@ export default {
         let offset = ref (circumference.value);
         const strokearr = `${circumference.value} ${circumference.value}`;
         function circleProgress(i){
-            tasks[i].currentDay++;
+            if(event.target.checked){
+                tasks[i].currentDay++;
+            }else{
+                tasks[i].currentDay--;
+            }
             const currentProgress = ref((100 / tasks[i].dayWay) * tasks[i].currentDay);
             tasks[i].offset = circumference.value - currentProgress.value / 100 * circumference.value;
-            console.log(tasks[i].offset);
+            if(tasks[i].offset == 0){
+                tasks[i].complead = true;
+                console.log("Выполнил");
+            }else{
+                tasks[i].complead = false;
+            }
         }
         function modalMove(index){
             if(tasks[index].click === true){
-            console.log(tasks[index].click)
             tasks[index].click = false
          }else{
             tasks.forEach((task) =>{
@@ -115,7 +124,6 @@ export default {
             tasks.forEach((task) =>{
                 const currentProgress = ref((100 / task.dayWay) * task.currentDay);
                 task.offset = circumference.value - currentProgress.value / 100 * circumference.value;
-                console.log(task.offset);
             })
 
          })
@@ -138,11 +146,16 @@ export default {
         width: 130px;
         height: 130px !important;
         background-color: transparent !important;
+        cursor: pointer;
 
         &-ring__circle{
             transform-origin: center;
             transform: rotate(-90deg);
             transition: stroke-dashoffset 0.3s;
+
+            &-active{
+                fill: rgb(94, 213, 168);
+            }
         }
     }
     .body-habits{
@@ -157,7 +170,6 @@ export default {
     }
     .habit{
         position: relative;
-        cursor: pointer;
         max-width: 300px;
         &-info{
                 color: #5ED5A8;
@@ -166,6 +178,12 @@ export default {
                 left: 10px;
                 text-align: center;
                 width: 104px;
+                cursor: pointer;
+
+                &-active{
+                    color: #1b232a;
+                    font-weight: bold;
+                }
                 
             &__header{
                 display: block;
