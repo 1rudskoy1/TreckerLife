@@ -104,7 +104,6 @@ export default {
             tasks[i].offset = circumference.value - currentProgress.value / 100 * circumference.value;
             if(tasks[i].offset == 0){
                 tasks[i].complead = true;
-                console.log("Выполнил");
             }else{
                 tasks[i].complead = false;
             }

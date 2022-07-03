@@ -11,7 +11,7 @@
                 </div>    
             </li>
         </ul>
-        <PopupAdd :isOpen="popupIsOpen"> </PopupAdd>    
+        <PopupAdd :isOpen="popupIsOpen" :progress="task" @progressAdd="progressAdd"> </PopupAdd>    
     </div>
 </template>
 
@@ -31,6 +31,12 @@ export default{
     methods:{
         change(){
             this.$emit("proCirckl")
+        },
+        progressAdd: function(value){
+            this.task.currentCount += parseInt(value);
+            if(this.task.currentCount >= this.task.target){
+                this.task.currentDay++;
+            } 
         }
     }
 
