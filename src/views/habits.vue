@@ -29,6 +29,7 @@ export default {
     },
     setup(){
         const tasks = reactive([{
+         id: 0,
          name: "Развить выносливость",
          level: 1,
          description: "Отжиматься по три сотни каждый день",
@@ -41,6 +42,7 @@ export default {
          offset: 100,
          complead: false
         }, {
+         id: 1,
          name: "Бог отжиманий",
          level: 2,
          description: "Отжиматься по 4 сотни каждый день",
@@ -53,6 +55,7 @@ export default {
          offset: 0
         },
         {
+         id: 2,
          name: "Мистер поцелуй пол",
          level: 3,
          description: "Отжиматься по 6 сотен каждый день",
@@ -65,6 +68,7 @@ export default {
          offset: 0
         },
         {
+         id: 3,
          name: "Разговаривать на английсском",
          level: 2,
          description: "Выучить 400 основных слов",
@@ -77,6 +81,7 @@ export default {
          offset: 0
         },
         {
+         id: 4,
          name: "Я слышу тебя",
          level: 1,
          description: "Выучить 900 основных слов",
@@ -94,6 +99,10 @@ export default {
         const circumference = ref( 2 * Math.PI * radius.value); 
         let offset = ref (circumference.value);
         const strokearr = `${circumference.value} ${circumference.value}`;
+        function progressed(value){
+            console.log(value);
+            
+        }
         function circleProgress(i){
             if(event.target.checked){
                 tasks[i].currentDay++;
@@ -133,7 +142,8 @@ export default {
             offset,
             strokearr,
             circleProgress,
-            modalMove
+            modalMove,
+            progressed
         }
     }
 }

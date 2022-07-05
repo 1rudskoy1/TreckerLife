@@ -3,15 +3,15 @@
     <h2 class="modal-header">{{task.name}}</h2>
         <ul class="task-desc">
             <li class="task-desc__fild" :class=" task.currentDay > i ? 'task-desc__fild-check' : ''" v-for="(count, i) in task.dayWay" :key="i"> 
-                <span>{{count}}</span><div class="task-desc__target">{{task.target}} / {{task.currentCount}}<span class="material-icons"  @click="popupIsOpen = !popupIsOpen " v-if = "task.currentDay == i ? true : false">add</span></div> 
+                <span>{{count}}</span><div class="task-desc__target">{{task.target}} / {{task.currentDay > i ?  task.target : '' || task.currentDay == i ?  task.currentCount  : 0}}<span class="material-icons"  @click="popupIsOpen = !popupIsOpen " v-if = "task.currentDay == i ? true : false">add</span></div> 
                 
                 <input @change="change" type="checkbox" class="task-desc__check" :checked = "task.currentDay > i ? true : false" :disabled = "task.currentDay < i ? true : false"/>
                 <div class="fild">
                     <div class="fild__overflow"></div>
                 </div>    
+                <PopupAdd :isOpen="popupIsOpen" :progress="task" @progressAdd="progressAdd"> </PopupAdd>    
             </li>
         </ul>
-        <PopupAdd :isOpen="popupIsOpen" :progress="task" @progressAdd="progressAdd"> </PopupAdd>    
     </div>
 </template>
 
@@ -35,7 +35,9 @@ export default{
         progressAdd: function(value){
             this.task.currentCount += parseInt(value);
             if(this.task.currentCount >= this.task.target){
+                this.task.currentCount = 0;
                 this.task.currentDay++;
+                
             } 
         }
     }
