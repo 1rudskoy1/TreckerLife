@@ -33,12 +33,10 @@ export default{
             this.$emit("proCirckl")
         },
         progressAdd: function(value){
-            this.task.currentCount += parseInt(value);
-            if(this.task.currentCount >= this.task.target){
-                this.task.currentCount = 0;
-                this.task.currentDay++;
-                
-            } 
+            if(this.task.currentDay < this.task.dayWay){
+                const id = this.task.id;
+                this.$emit("circleBar", value, id);
+            }
         }
     }
 

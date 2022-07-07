@@ -23,7 +23,7 @@
         methods:{
             popupEmit(){
                 this.$emit("progressAdd", this.addValue);
-            }
+            },
         }
     }
 </script>

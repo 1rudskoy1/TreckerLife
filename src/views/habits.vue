@@ -10,7 +10,7 @@
                     <span class="habit-info__header">{{task.category}}</span>
                     <span  class="habit-info__level">{{task.level}}</span>
                 </div>
-                 <Modal :task = 'task'  @click.stop @proCirckl = "circleProgress(index)"/>
+                 <Modal :task = 'task'  @click.stop @proCirckl = "circleProgress(index)"  @circleBar = "circleBar"/>
             </div>
         </div>
     </div>
@@ -103,6 +103,25 @@ export default {
             console.log(value);
             
         }
+
+        // Повтор кода, переписать позже
+        function circleBar(value, id){
+            let taskC = {};
+            tasks.forEach(task => task.id == id ? taskC = task : '');
+            taskC.currentCount += parseInt(value);
+            if(taskC.currentCount >= taskC.target){
+                taskC.currentCount = 0;
+                taskC.currentDay++;
+            }
+            const currentProgress = ref((100 / taskC.dayWay) * taskC.currentDay);
+            taskC.offset = circumference.value - currentProgress.value / 100 * circumference.value;
+            if(taskC.offset == 0){
+                taskC.complead = true;
+            }else{
+                taskC.complead = false;
+            }
+
+        }
         function circleProgress(i){
             if(event.target.checked){
                 tasks[i].currentDay++;
@@ -143,7 +162,8 @@ export default {
             strokearr,
             circleProgress,
             modalMove,
-            progressed
+            progressed,
+            circleBar
         }
     }
 }
